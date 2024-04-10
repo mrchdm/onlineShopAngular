@@ -1,0 +1,24 @@
+<div class="max-w-2xl container mx-auto pt-5">
+    <!-- После | идет pipe -->
+    <h1 class="font-bold md2 text-center">{{title | uppercase}}</h1>
+    <input type="text" class="border rounded mb-2 px-4 py-2 w-full" placeholder="Filter products..." [(ngModel)]="term">
+
+    <!-- <app-productComponent [product]="products[0]"></app-productComponent>
+<app-productComponent [product]="products[1]"></app-productComponent> -->
+    <!-- let i=index резервируем i под index, если нужна будет итерация -->
+    <p *ngIf='loading' class="text-center text-lg">Loading...</p>
+
+    <div *ngIf="productService.products">
+        <app-productComponent *ngFor="let product of productService.products| filterProducts: term; 
+let i=index" [product]='product'>
+        </app-productComponent>
+    </div>
+
+    <!-- Здесь необязательно брать title в [], тк тут он string -->
+    <app-modal *ngIf="modalService.isVisible$ |async" title="Create New Product">
+        <app-create-product></app-create-product>
+    </app-modal>
+
+    <button class="rounded-full bg-blue-600 text-white fixed right-5 bottom-5 py-2 px-4"
+        (click)="modalService.open()">+</button>
+</div>
